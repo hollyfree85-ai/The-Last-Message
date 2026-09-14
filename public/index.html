@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#03050b" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="The Last Message" />
+  <meta name="description" content="Talk across your own timeline." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>The Last Message</title>
+</head>
+<body>
+  <div id="app">
+    <div class="ambient" aria-hidden="true">
+      <div class="grain"></div>
+      <div class="stars" id="stars"></div>
+    </div>
+
+    <header class="topbar">
+      <button id="homeBtn" class="wordmark" type="button" aria-label="Home">THE LAST MESSAGE</button>
+      <div class="top-actions">
+        <button id="installBtn" class="ghost hidden" type="button">Install</button>
+        <label class="lang-wrap">
+          <span class="sr-only">Language</span>
+          <select id="langSelect" class="lang-select" aria-label="Language">
+            <option value="en">EN</option>
+            <option value="id">ID</option>
+            <option value="es">ES</option>
+            <option value="zh-TW">繁中</option>
+          </select>
+        </label>
+      </div>
+    </header>
+
+    <main>
+      <section class="screen active" id="screenIntro" data-screen="intro">
+        <div class="intro-wrap">
+          <div class="portal portal-intro" aria-hidden="true">
+            <div class="portal-core"></div>
+          </div>
+          <p class="eyebrow" data-i18n="introEyebrow">A conversation across time</p>
+          <h1 data-i18n="introTitle">What would you ask yourself?</h1>
+          <p class="intro-copy" data-i18n="introCopy">Meet a version of you from another point on your timeline.</p>
+          <button id="beginBtn" class="primary" type="button" data-i18n="begin">Enter</button>
+        </div>
+      </section>
+
+      <section class="screen" id="screenProfile" data-screen="profile">
+        <div class="simple-card profile-card">
+          <button class="back-link" type="button" data-back="intro">← <span data-i18n="back">Back</span></button>
+          <p class="eyebrow" data-i18n="profileEyebrow">Before the timeline opens</p>
+          <h2 data-i18n="profileTitle">Tell me who you are.</h2>
+          <form id="profileForm" novalidate>
+            <label>
+              <span data-i18n="fullName">Full name</span>
+              <input id="fullName" name="fullName" autocomplete="name" required maxlength="80" />
+            </label>
+            <label>
+              <span data-i18n="birthDate">Date of birth</span>
+              <input id="birthDate" name="birthDate" type="date" required />
+            </label>
+            <label>
+              <span data-i18n="birthTime">Time of birth</span>
+              <input id="birthTime" name="birthTime" type="time" />
+              <small data-i18n="optional">Optional</small>
+            </label>
+            <p id="formError" class="form-error hidden"></p>
+            <button class="primary full" type="submit" data-i18n="continue">Continue</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="screen" id="screenConsent" data-screen="consent">
+        <div class="simple-card consent-card">
+          <button class="back-link" type="button" data-back="profile">← <span data-i18n="back">Back</span></button>
+          <p class="eyebrow" data-i18n="beforeContinue">Before you continue</p>
+          <h2 data-i18n="consentTitle">The future is not fixed.</h2>
+          <div class="consent-copy">
+            <p data-i18n="consentP1">This experience draws from multiple historical systems of interpretation from cultures around the world.</p>
+            <p data-i18n="consentP2">It can suggest patterns, tendencies and periods of change. It cannot know exact events, locations, other people, or guaranteed outcomes.</p>
+            <p data-i18n="consentP3">A single choice can change what comes next. Treat this as an interpretive experience, not a factual prediction.</p>
+          </div>
+          <label class="check-row">
+            <input id="agreeCheck" type="checkbox" />
+            <span data-i18n="agreeText">I understand and want to continue.</span>
+          </label>
+          <button id="openTimelineBtn" class="primary full" type="button" disabled data-i18n="openTimeline">Open my timeline</button>
+        </div>
+      </section>
+
+      <section class="screen" id="screenDirection" data-screen="direction">
+        <div class="time-stage">
+          <div class="corridor" aria-hidden="true">
+            <div class="corridor-glow"></div>
+            <div class="rail rail-left"></div>
+            <div class="rail rail-right"></div>
+            <div class="rings" id="ringsDirection"></div>
+          </div>
+          <div class="direction-content">
+            <p class="eyebrow" data-i18n="chooseDirection">Choose a direction</p>
+            <h2 id="directionName">YOUR TIMELINE</h2>
+            <div class="direction-buttons">
+              <button class="direction-btn" type="button" data-direction="past">
+                <span class="direction-arrow">←</span>
+                <span>
+                  <strong data-i18n="past">Past</strong>
+                  <small data-i18n="pastSub">Talk to who you were.</small>
+                </span>
+              </button>
+              <button class="direction-btn" type="button" data-direction="future">
+                <span>
+                  <strong data-i18n="future">Future</strong>
+                  <small data-i18n="futureSub">Talk to who you may become.</small>
+                </span>
+                <span class="direction-arrow">→</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="screenTimeline" data-screen="timeline">
+        <div class="time-stage timeline-stage">
+          <div class="corridor corridor-deep" aria-hidden="true">
+            <div class="corridor-glow"></div>
+            <div class="rail rail-left"></div>
+            <div class="rail rail-right"></div>
+            <div class="rings" id="ringsTimeline"></div>
+          </div>
+          <div class="timeline-ui">
+            <button class="back-link on-dark" type="button" data-back="direction">← <span data-i18n="back">Back</span></button>
+            <div class="timeline-heading">
+              <p class="eyebrow" id="timelineEyebrow">FUTURE</p>
+              <h2 data-i18n="choosePoint">Choose a point in time.</h2>
+            </div>
+            <div id="yearTrack" class="year-track" role="list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="screenChat" data-screen="chat">
+        <div class="chat-bg" aria-hidden="true">
+          <div class="corridor chat-corridor">
+            <div class="corridor-glow"></div>
+            <div class="rail rail-left"></div>
+            <div class="rail rail-right"></div>
+            <div class="rings" id="ringsChat"></div>
+          </div>
+        </div>
+        <div class="chat-shell">
+          <div class="chat-head">
+            <button id="chatBackBtn" class="circle-btn" type="button">←</button>
+            <div class="chat-identity">
+              <div class="avatar" id="avatarLetter">Y</div>
+              <div>
+                <strong id="chatName">YOU — 2036</strong>
+                <small><span class="status-dot"></span><span id="chatStatus" data-i18n="connected">connected</span></small>
+              </div>
+            </div>
+            <button id="chatMenuBtn" class="circle-btn" type="button">•••</button>
+          </div>
+
+          <div id="chatMessages" class="chat-messages" aria-live="polite"></div>
+          <div id="typingRow" class="typing-row hidden"><span></span><span></span><span></span></div>
+
+          <div id="quickPrompts" class="quick-prompts"></div>
+          <form id="chatForm" class="chat-input-wrap">
+            <textarea id="chatInput" rows="1" maxlength="2000" data-i18n-placeholder="messagePlaceholder" placeholder="Message yourself..."></textarea>
+            <button id="sendBtn" class="send-btn" type="submit" aria-label="Send">↑</button>
+          </form>
+          <p class="chat-note" data-i18n="chatNote">An interpretive conversation, not factual knowledge of future events.</p>
+        </div>
+      </section>
+    </main>
+
+    <div id="menuSheet" class="sheet hidden" role="dialog" aria-modal="true">
+      <button id="sheetClose" class="sheet-close" type="button">×</button>
+      <h3 data-i18n="conversation">Conversation</h3>
+      <button id="changeTimeBtn" class="sheet-action" type="button" data-i18n="changeTime">Change point in time</button>
+      <button id="clearChatBtn" class="sheet-action danger" type="button" data-i18n="clearChat">Clear this conversation</button>
+    </div>
+    <div id="sheetBackdrop" class="sheet-backdrop hidden"></div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
